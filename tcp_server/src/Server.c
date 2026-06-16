@@ -12,11 +12,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#include "../include/Server.hpp"
-#include "../include/Client.hpp"
-#include "../../Shared_Protocol/Protocol.hpp"
+#include "Server.h"
+#include "Client.h"
+#include "Protocol.h"
 
-#define PORT 8080
 #define BUFFER_SIZE 1024
 
 

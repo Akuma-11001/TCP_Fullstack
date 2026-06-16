@@ -3,8 +3,8 @@
 
 #include <netinet/in.h>
 
-#include "../include/Server.hpp"
-#include "../../Shared_Protocol/Server_Socket.hpp"
+#include "Server.h"
+
    
 
 #define PORT 8081
@@ -20,4 +20,5 @@ int main()
    
 
     return 0;
+
 }

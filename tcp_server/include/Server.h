@@ -3,7 +3,7 @@
 
 #pragma once
 
-int create_server_socket();
+int create_server_socket(int PORT);
 int accept_client(int server_fd);
 void handle_client(int client_fd);
 

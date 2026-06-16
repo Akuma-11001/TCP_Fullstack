@@ -1,7 +1,7 @@
 // The Client data is being handled here
 
-#include "../include/Client.hpp"
-#include "../../Shared_Protocol/Protocol.hpp"
+#include "Client.h"
+#include "Protocol.h"
 
 #include <stdio.h>
 //#include <string.h>

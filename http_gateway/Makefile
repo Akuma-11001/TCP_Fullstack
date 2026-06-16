@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Wpedantic -g 
 CFLAGS += -Iinclude -I../Shared_Protocol
 
-SRC = src/main.c src/Client.c src/Server.c \
+SRC = src/main.c src/Gateway.c\
 	  ../Shared_Protocol/Protocol.c ../Shared_Protocol/Server_Socket.c 
 
 
@@ -19,4 +19,4 @@ $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(TARGET)
+	

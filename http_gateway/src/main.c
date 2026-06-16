@@ -1,8 +1,8 @@
 // The main file for the gateway
 
 
-#include "../../Shared_Protocol/Server_Socket.hpp"
-#include "../include/Gateway.hpp"
+#include "Server_Socket.h"
+#include "Gateway.h"
 
 #include <unistd.h>
 #include <sys/socket.h>
