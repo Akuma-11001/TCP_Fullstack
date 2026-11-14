@@ -23,9 +23,24 @@
 
 
 
+static void log_bytes(const char *direction, const char *data, size_t length)
+{
+    printf("[%s] %zu bytes", direction, length);
+
+    for (size_t i = 0; i < length; i++)
+    {
+        printf("%02X", data[i]);
+    }
+    printf("\n");
+    fflush(stdout);
+}
+
+
 static int read_exact(int fd, void *buffer, size_t bytes_to_read)
 {
     size_t total = 0;
+
+    printf("read_exact called");
 
     while (total < bytes_to_read)
     {
@@ -37,6 +52,37 @@ static int read_exact(int fd, void *buffer, size_t bytes_to_read)
 
         if (bytes <= 0)
             return -1;
+
+        log_bytes("RX", (char*)buffer + total, bytes);
+
+        total += bytes;
+    }
+
+    return total;
+}
+
+static int send_exact(int fd, const  void *buffer, size_t bytes_to_read)
+{
+    size_t total = 0;
+
+    printf("send_exact called");
+
+    while (total < bytes_to_read)
+    {
+        int bytes = send(
+                fd,
+                (const char*)buffer + total,
+                bytes_to_read - total, 0
+            );
+
+        if (bytes <= 0)
+            return -1;
+
+
+
+
+        log_bytes("TX", (char*)buffer + total, bytes);
+
         total += bytes;
     }
 
@@ -44,9 +90,11 @@ static int read_exact(int fd, void *buffer, size_t bytes_to_read)
 }
 
 
+
+
 int receive_packet(int client_fd, char **out_buffer)
 {
-    uint32_t net_length;
+    uint32_t net_length; // Is a buffer
 
 
 
@@ -75,7 +123,7 @@ int receive_packet(int client_fd, char **out_buffer)
         return -1;
     }
 
-    payload[payload_length] = '0';  // So clear the  memory to 0 bytes 
+    payload[payload_length] = '\0';  // So clear the  memory to 0 bytes 
                                     // has to be '', because of characters 
                                     // "" does have a terminating null byte added 
                                     // (only for array of chars), '0' this only fills the first one
@@ -99,17 +147,17 @@ int send_packet(int client_fd, const char *json)
     uint32_t net_length = htonl(payload_length);
 
 
-    if (send(client_fd,
+    if (send_exact(client_fd,
                 &net_length,
-                sizeof(net_length),
-                0) < 0)
+                sizeof(net_length)
+                ) < 0)
 
         return -1;
 
-    if (send(client_fd,
+    if (send_exact(client_fd,
                 json,
-                payload_length,
-                0) < 0)
+                payload_length
+                ) < 0)
 
         return -1;
 

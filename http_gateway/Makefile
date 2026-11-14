@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Wpedantic -g 
 CFLAGS += -Iinclude -I../Shared_Protocol
 
-SRC = src/main.c src/Gateway.c\
+SRC = src/main.c src/Gateway.c src/Routing.c\
 	  ../Shared_Protocol/Protocol.c ../Shared_Protocol/Server_Socket.c 
 
 

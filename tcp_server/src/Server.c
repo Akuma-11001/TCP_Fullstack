@@ -65,12 +65,15 @@ void run_server(int server_fd)
     while (1)
     {
         int client_fd = accept_client(server_fd);
+// Accepts the connections
+// Now this is the client that becomes the connection
+// The client is also made 
+//      from the server (Domain, Socket_Stream, Protocol) 
+// Server and Client both have a socket
 
-                                            // Accepts the connections
-        if (client_fd < 0)                  // Now this is the client that becomes the connection
-        {                                   //  The client is also made with the from
-                                            //  from the server (Domain, Socket_Stream, Protocol) 
-            perror("accept failed");        // Serve and Client both have a socket
+        if (client_fd < 0)                 
+        {
+            perror("accept failed");                    
             continue;
         }
         handle_client(client_fd);
