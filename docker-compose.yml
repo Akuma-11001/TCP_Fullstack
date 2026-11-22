@@ -1,0 +1,33 @@
+          
+services:
+
+  tcp_server: 
+    build:
+      context: .
+      dockerfile: tcp_server/Dockerfile
+    restart: unless-stopped
+    expose:
+      - "8005"
+
+  http_gateway: 
+    build:
+      context: .
+      dockerfile: http_gateway/Dockerfile
+    environment:
+      TCP_SERVER_HOST: tcp_server
+    ports:
+      - "9000:9000"
+    depends_on:
+      - tcp_server
+
+
+
+  frontend: 
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      restart: unless-stopped
+      ports:
+        - "8100:80"
+      depends_on:
+        - http_gateway  

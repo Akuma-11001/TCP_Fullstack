@@ -34,10 +34,27 @@ void handle_client(int client_fd)
     printf("Received: %s\n", request);
 
     
-    const char *response = "{\"ok\": true}";
 
-    send_packet(client_fd, response);
 
+
+    
+    if (strcmp(request, "visualization")==0)
+    {
+        char response[512];
+        char hex[400] = "";
+
+        for (int i = 0; i < 32; i++)
+        {
+            char byte[4];
+            snprintf(byte, sizeof(byte), "%02X", rand() % 256);
+            strcat(hex, byte);
+        }
+    
+
+        snprintf(response, sizeof(response), "{\"hex\": \"%s\"}", hex);
+    
+        send_packet(client_fd, response);
+    }
     free(request);
 }
 

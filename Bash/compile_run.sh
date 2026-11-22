@@ -8,6 +8,10 @@ Script_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 
 
+
+
+
+"$Script_DIR/compile.sh"
 "$Script_DIR/stop.sh"
 
 

@@ -1,0 +1,14 @@
+.git 
+**/*.o
+
+tcp_server/server
+http_gateway/server
+Client_TCP/app
+
+**/__pycache__
+
+
+
+
+
+

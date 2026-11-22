@@ -9,13 +9,17 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+
+
+#include <netdb.h>
+
 #include "Protocol.h"
 #include "Routing.h"
 
 
-#define HTTP_PORT 8080
-#define TCP_PORT  8081
-#define TCP_IP    "127.0.0.1"
+#define HTTP_PORT 9000
+#define TCP_PORT  8005
+
 
 
 
@@ -38,8 +42,22 @@ static int create_tcp_server()
 
     addr.sin_family = AF_INET;
     addr.sin_port = htons(TCP_PORT);
-    inet_pton(AF_INET, TCP_IP, &addr.sin_addr);
 
+    const char *host = getenv("TCP_SERVER_HOST");
+
+    if (host == NULL)
+        host = "127.0.0.1";
+
+    struct hostent *server = gethostbyname(host);
+
+    if (server == NULL)
+    {
+        fprintf(stderr, "Could not resolve TCP server: %s\n", host);
+        close(fd);
+        return -1;
+    }
+
+    memcpy(&addr.sin_addr, server->h_addr_list[0], server->h_length);
 
 
 
@@ -59,7 +77,13 @@ int tcp_call(const char *request_json, char **response_json)
 {
     int fd = create_tcp_server();
 
-    if (send_packet(fd, request_json) < 0) // Send the packet to the tcp server
+    if (fd < 0) 
+    {
+        fprintf(stderr, "Could not connect to the TCP server \n");
+        return -1;
+    }
+
+ if (send_packet(fd, request_json) < 0) // Send the packet to the tcp server
     {
         perror("send_packet");
         close(fd);
@@ -67,7 +91,13 @@ int tcp_call(const char *request_json, char **response_json)
     }
 
     int len = receive_packet(fd, response_json); // save the length of the packet 
-                                                 // from the TCP Server
+    // from the TCP Server
+    if (len < 0)
+    {
+        printf("TCP receive failed\n");
+        close(fd);
+        return -1;
+    }
 
     close(fd);
 

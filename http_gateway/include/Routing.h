@@ -29,6 +29,10 @@ void handle_index(int client_fd, const char *request);
 
 void handle_css(int client_fd, const char *request);
 
+void handle_fetching(int client_fd, const char *request);
+
+void handle_visualization(int client_fd, const char *request);
+
 void handle_favicon(int client_fd, const char *request);
 
 void handle_login_page(int client_fd, const char *request);

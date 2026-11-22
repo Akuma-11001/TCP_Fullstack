@@ -17,6 +17,8 @@ Route routes[] =
 {
     {"GET", "/", handle_index},
     {"GET", "/styles.css", handle_css},
+    {"GET", "/Fetching.js", handle_fetching},
+    {"GET", "/api/visualization", handle_visualization}, 
     {"GET", "/favicon.ico", handle_favicon},
     {"GET", "/login", handle_login_page},
     {"POST", "/login", handle_login},
@@ -87,30 +89,45 @@ void serve_file(int client_fd, const char *path, const char *content_type)
 
 
 
-
-
-
-
 void handle_index(int client_fd, const char *request)
 {
-    char *tcp_response = NULL;
-    if (tcp_call("visualize", &tcp_response)< 0)
-    {
-        printf("TCP communication failed\n");
-    }
-    else
-    {
-        printf("TCP response: %s\n", tcp_response);
 
-        free(tcp_response);
-    }
 
 
     serve_file(client_fd, "frontend/index.html","text/html");
 }
 
+void handle_fetching(int client_fd, const char *request)
+{
 
 
+
+    serve_file(client_fd, "frontend/Fetching.js","application/javascript");
+}
+
+void handle_visualization(int client_fd, const char *request)
+{
+
+
+
+
+    printf("Button pressed \n");
+    char *tcp_response = NULL;
+
+    if (tcp_call("visualization", &tcp_response)< 0)
+    {
+        printf("TCP communication failed\n");
+        return;
+    }
+    
+    printf("TCP response: %s\n", tcp_response);
+
+    send_http_response(client_fd, tcp_response);
+    // This sends it to the browser for JS to fetch
+    
+    free(tcp_response);
+    
+} 
 
 void handle_css(int client_fd, const char *request)
 {

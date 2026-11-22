@@ -1,8 +1,43 @@
+html {
+    font-size: 10px;
+}
+
 body {
     background: #121212;
     color: white;
 
     width: 100%;
     height: 50%;
+}
+
+.main-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    width: 100%;
+    height: 100%;
+    gap: 14rem;
+
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+button {
+    font-size: 2.8rem;
+    width: 28rem;
+    height: 14rem;
+
+    background: yellow;
+}
+
+div #hex-output {
+    font-size: 4rem;
+    background: #121212;
+    
+
 }
 
