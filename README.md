@@ -75,7 +75,7 @@ This builds and starts all three services:
 
 Open the following address in your browser:
 
-http://localhost:8100
+http://localhost:8100/
 
 Press the visualization button to request a hexadecimal string from the TCP server.
 
